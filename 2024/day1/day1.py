@@ -4,7 +4,7 @@ def part_one():
     l2 = sorted([int(string.split("   ")[1]) for string in f])
 
     return sum([abs(a - b) for a,b in zip(l1, l2)])
-
+    
 
 def part_two():
     f = open("input.txt", "r").readlines()
