@@ -20,7 +20,7 @@ def part_two():
 
     f = open("input.txt", "r").read().splitlines()
     f = [list(map(int , (l.rstrip().split(" ")))) for l in f]
-    
+   
     return sum(1 for l in f if any(increasing(l[:i] + l[i+1:]) or decreasing(l[:i] + l[i+1:]) for i in range(len(l))))
 
 
