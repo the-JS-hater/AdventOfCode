@@ -5,7 +5,7 @@ def part_one():
 
 def part_two():
     f = open("input.txt", "r").read().splitlines()
-    return sum([ord(c)-38 if c.isupper() else ord(c)-96 for c in ["".join(set(f[i]).intersection(set(f[i+1]).intersection(set(f[i+2])))) for i in range(0, len(f), 3)]])
+    return sum([ord(c)-38 if c.isupper() else ord(c)-96 for c in["".join(set(f[i]).intersection(set(f[i+1]).intersection(set(f[i+2])))) for i in range(0, len(f), 3)]])
 
 
 if __name__ == "__main__":
