@@ -1,5 +1,8 @@
+from functools import cmp_to_key
+
+
 def part_one():
-    f = open("test.txt", "r").read().split("\n\n")
+    f = open("input.txt", "r").read().split("\n\n")
     od = {}
     for p in f[0].splitlines():
         p = list(map(int, p.split('|')))
@@ -33,30 +36,15 @@ def part_one():
 
 
 def part_two(rows, deps):
-    fixed = []  
-       
-    for row in rows:
-        # KAHN'S ALGORTHM
-        # https://en.wikipedia.org/wiki/Topological_sorting
-        deps_c = deps.copy()
-        s = set([node for node in row if node not in deps_c or all(dep not in row for dep in deps_c[node])])
-        l = []
-        while s:
-            print(f"set: {s}")
-            print(f"list: {l}")
+    def cmp(a, b):
+        if b in deps and a in deps[b]:
+            return 1
+        elif a in deps and b in deps[a]:
+            return -1
+        else: 
+            return 0
 
-            n = s.pop()
-            l.append(n)
-            
-            for m in list(deps_c.keys()):
-                if n in deps_c[m]:
-                    deps_c[m].remove(n)
-                if not deps_c[m]:
-                    s.add(m)
-
-        fixed.append(l)
-    
-    return sum([r[len(r)//2] for r in fixed]) 
+    return sum([sorted(row, key=cmp_to_key(cmp))[len(row)//2] for row in rows])
 
 
 if __name__ == "__main__":
