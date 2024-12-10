@@ -33,8 +33,48 @@ def part_one():
 
 
 def part_two():
-    # TODO
-    pass
+    f = open("test.txt", "r").read().replace("\n", "")
+    f = list(map(int, f))
+    idx_l = []
+    free_l = []
+    
+    flag = False
+    i = 0
+    for n in f:
+        if flag:
+            free_l.append(n)
+        else:
+            idx_l.append((i, n))
+            i += 1
+        flag = not flag
+
+    print(idx_l)
+    print(free_l)
+    
+    dumb = []
+    org_l = idx_l.copy()
+    offset_dic = {i: 1 for i in range(len(free_l))}
+    tmp_idxs = idx_l[::-1][:-1]
+    for i, size in tmp_idxs:
+        for j, space in enumerate(free_l):
+            if space < size:
+                continue
+
+            free_l[j] -= size
+            org_i = org_l.index((i, size))
+            dumb.append((org_i - 1, size))
+            #free_l[org_i - 1] += size
+            tmp_idxs.remove((i, size))
+            idx_l.remove((i, size))
+            idx_l.insert(j + offset_dic[j], (i, size))
+            offset_dic[j] += 1
+            break
+    
+    for i, size in dumb:
+        free_l[i] += size
+
+    print(idx_l)
+    print(free_l)
 
 
 if __name__ == "__main__":
