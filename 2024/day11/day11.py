@@ -5,7 +5,7 @@ def part_one():
     while c > 0:
         c -= 1
         tmp = []
-        for i, n in enumerate(f):
+        for n in f:
             if n == 0:
                 tmp.append(1)
             elif len(str(n)) % 2 == 0:
@@ -22,9 +22,29 @@ def part_one():
 def part_two():
     f = open("input.txt", "r").read().split(" ")
     f = [int(n) for n in f]
-    # TODO: trying to simulate 75 iterations is too slow
     
-    pass
+    memo = {}
+
+    def sim(n, i):
+        if (n, i) in memo:
+            return memo[(n, i)]
+        if i == 0:
+            return 1
+        if n == 0:
+            res = sim(1, i-1)
+            memo[(1, i-1)] = res
+            return res
+        elif len(str(n)) % 2 == 0:
+            n1, n2 = int(str(n)[len(str(n))//2:]), int(str(n)[:len(str(n))//2])
+            res = sim(n1, i-1) + sim(n2, i-1)
+            memo[(n, i)] = res
+            return res
+        else:
+            res = sim(n*2024, i-1)
+            memo[(n, i)] = res
+            return res
+    
+    return sum([sim(n, 75) for n in f])
 
 
 if __name__ == "__main__":
